@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Observable, throwError } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { Subject } from 'rxjs';
@@ -17,7 +17,6 @@ export class GroceryService {
   baseUrl = "http://192.168.1.119:8080";
 
   constructor(public http: HttpClient) {
-    console.log('Connecting Grocery Service Provider');
     this.dataChangeSubject = new Subject<boolean>();
     this.dataChanged$ = this.dataChangeSubject.asObservable();
   }
@@ -41,11 +40,10 @@ export class GroceryService {
 
 
   editItem(item){
-    let destination:string;
+    let url = this.baseUrl+'/api/groceries/'+item._id;
     console.log("EDITING ITEM: " + item.name);
-    destination = this.baseUrl+'/api/groceries/'+item._id;
-    console.log(destination);
-    this.http.put(destination, item).subscribe(
+    console.log(url);
+    this.http.put(url, item).subscribe(
       res => {
         this.items= <any> res;
         this.dataChangeSubject.next(true);
