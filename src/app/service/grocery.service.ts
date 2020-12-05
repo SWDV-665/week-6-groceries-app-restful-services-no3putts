@@ -14,7 +14,7 @@ export class GroceryService {
 
   private dataChangeSubject: Subject<boolean>;
 
-  baseUrl = "http://192.168.1.119:8080";
+  baseUrl = "https://groceries-sever-jp.herokuapp.com";
 
   constructor(public http: HttpClient) {
     this.dataChangeSubject = new Subject<boolean>();
@@ -74,7 +74,6 @@ export class GroceryService {
     else {
       errMsg = error.message ? error.message : error.toString();
     }
-    //console.error(errMsg);
     return throwError(errMsg);
   }
 }
