@@ -101,7 +101,7 @@ app.put('/api/groceries/:id', function (req, res) {
 // Delete a grocery Item
 app.delete('/api/groceries/:id', function (req, res) {
     console.log("Deleting item - ", req.params.id);
-    Grocery.remove({_id: req.params.id}, function (err, grocery) {
+    Grocery.findOneAndRemove({_id: req.params.id}, function (err, grocery) {
         if (err) {
             console.error("Error deleting grocery ", err);
         }
