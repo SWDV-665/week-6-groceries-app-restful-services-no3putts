@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import {MovieService } from '../service/grocery.service';
+import {MovieService } from './movie.service';
 
 @Injectable({
   providedIn: 'root'
