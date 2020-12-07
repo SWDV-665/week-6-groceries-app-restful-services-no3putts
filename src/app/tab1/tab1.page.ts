@@ -2,46 +2,76 @@ import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
-import { GroceryService } from '../service/grocery.service';
+import { MovieService } from '../service/grocery.service';
 import { InputDialogService } from '../service/input-dialog.service';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
+export interface Movie {
+  title: string;
+  year: string;
+  poster: string;
+  imdbID: string;
+}
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
+
 export class Tab1Page{
 
-  title = "Groceries";
-  items = [];
+  title = "Movie Finder";
+  items: Movie[];
   errorMessage: String;
   
 
   constructor(public toastController: ToastController, 
     public alertController: AlertController, 
-    public dataService: GroceryService, 
+    public dataService: MovieService, 
     public inputDialog: InputDialogService,
     public socialSharing: SocialSharing) { 
-      dataService.dataChanged$.subscribe((dataChanged: boolean) => {
-        this.loadItems();
-      });
+      //  dataService.dataChanged$.subscribe((dataChanged: boolean) => {
+      //  this.loadItems();
+      //  });
     }
   
-  //fetch data 
-  ionViewWillEnter() {
-    this.loadItems();
-  }
 
-  loadItems() {
-    this.dataService.getItems()
-    .subscribe(
-      resp => this.items = resp,
-      error => this.errorMessage = <any>error);
-    return this.items;
-  }
+    async loadItems(evt) {
+      // this.foodList = this.foodListBackup;
+      const searchTerm = evt.srcElement.value;
+    
+      if (!searchTerm) {
+        return;
+      }
+
+      this.dataService.getMovie(searchTerm).subscribe((data: Movie[])=>{
+        console.log("**************DATA******************");
+        console.log(data);
+        this.items = data;
+      });
+      // this.items = this.foodListBackup;
+      console.log("********************************");
+      console.log(this.items[0].title);
+      console.log("********************************");
+      return this.items;
+    }   
+
+
+
+  // //fetch data 
+  // ionViewWillEnter() {
+  //   this.loadItems();
+  // }
+
+  // loadItems() {
+  //   this.dataService.getItems()
+  //   .subscribe(
+  //     resp => this.items = resp,
+  //     error => this.errorMessage = <any>error);
+  //   return this.items;
+  // }
   
-  async editItem(item, index) {
+  async itemDetail(item, index) {
     const toast = await this.toastController.create({
       message: 'Editing Item: ' + item.name,
       duration: 5000,
@@ -54,18 +84,18 @@ export class Tab1Page{
     this.inputDialog.saveItem(item, index);
   }
 
-  async removeItem(item) {
-    const toast = await this.toastController.create({
-      header: 'Removing...',
-      message: 'Item removed: ' + item.name,
-      duration: 2000,
-      position: 'bottom',
-      animated: true,
-      color: 'success',
-    });
-    toast.present();  // displays toast 
-    this.dataService.removeItem(item)
-  }
+  // async removeItem(item) {
+  //   const toast = await this.toastController.create({
+  //     header: 'Removing...',
+  //     message: 'Item removed: ' + item.name,
+  //     duration: 2000,
+  //     position: 'bottom',
+  //     animated: true,
+  //     color: 'success',
+  //   });
+  //   toast.present();  // displays toast 
+  //   this.dataService.removeItem(item)
+  // }
 
   async shareItem(item, index) {
     const toast = await this.toastController.create({
@@ -92,9 +122,9 @@ export class Tab1Page{
     });
   }
 
-  addItem(){
-    this.inputDialog.saveItem();
-  }
+  // addItem(){
+  //   this.inputDialog.saveItem();
+  // }
 
 }
 

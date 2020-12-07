@@ -7,20 +7,37 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Default Searchbar -->
+  <ion-searchbar placeholder="Enter Movie Name" 
+  showcancelbutton="true"
+  (search)="loadItems($event)">
+  </ion-searchbar>
+
+<!-- <ion-list lines="none">
+  <ion-item *ngFor="let foodItem of foodList">
+    <ion-label class="ion-text-wrap">
+      <ion-text color="primary">
+        <h3>{{ foodItem.name }}</h3>
+      </ion-text>
+      <p>{{ foodItem.qty }} -- {{ foodItem.unit }}</p>
+    </ion-label>
+  </ion-item>
+</ion-list> -->
+
   <div class="ion-text-center">
    <h3 *ngIf="items.length === 0">
-     No items on the list
+     Eneter a movie name to search
    </h3>
   </div>
-  <ion-list>
+  <ion-list lines=none>
     <ion-item-sliding *ngFor="let item of items; let i = index">
       <ion-item>
         <ion-thumbnail item-left>
-          <img src={{item.imgUrl}}>
+          <img src={{item.poster}}>
         </ion-thumbnail>
         <ion-label>
-          <h2>{{item.name}}</h2>
-          <p>{{item.qty}} {{item.unit}}</p>
+          <h2>{{item.title}}</h2>
+          <p>{{item.year}}</p>
         </ion-label>
       </ion-item>
       <ion-item-options>
@@ -37,10 +54,10 @@
     </ion-item-sliding>
   </ion-list>
 
-   <!-- fab placed to the top end -->
+   <!-- fab placed to the top end
    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addItem()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 </ion-content>

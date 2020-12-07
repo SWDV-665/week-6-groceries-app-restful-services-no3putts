@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import {GroceryService } from '../service/grocery.service';
+import {MovieService } from '../service/grocery.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InputDialogService {
 
-  constructor(public dataService: GroceryService, public alertController: AlertController) { }
+  constructor(public dataService: MovieService, public alertController: AlertController) { }
 
   async saveItem(item?, index?) {
     const alert = await this.alertController.create({
@@ -59,12 +59,13 @@ export class InputDialogService {
             if(index == undefined){
               console.log("ADDING: " + item);
               // item.splice(index,1); // remove item from array
-              this.dataService.addItem(item);
+              // this.dataService.addItem(item);
+
             }
             else
             {
               console.log("EDITING THIS: " + item._id);
-              this.dataService.editItem(item);
+              // this.dataService.editItem(item);
             }
           }
         }
